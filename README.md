@@ -2,7 +2,9 @@
 
 ## Usage:
 
-1. Clone your workspace project inside this directory.
+1. Clone this repo.
+
+2. `cd` inside and clone your workspace project.
 
 2. Add your workspace directory to `.gitignore` file.
 
