@@ -8,7 +8,17 @@
 
 3. In the `docker-compose.yml` file, replace `workspace-dir-name` with the name of your actual workspace directory.
 
-4. in the `Dockerfile`, add your `$USER`.
+4. In the `docker-compose.yml` file, replace the env variables for the mysql configuration
+
+```
+environment:
+      MYSQL_DATABASE: $DATABASE
+      MYSQL_USER: $USER
+      MYSQL_PASSWORD: $PASSWORD
+      MYSQL_ROOT_PASSWORD: $ROOT_PASSWORD
+```
+
+5. in the `Dockerfile`, add your `$USER`.
 
 5. Create a folder named `initdb` and put your sql dump inside (optional) 
 
