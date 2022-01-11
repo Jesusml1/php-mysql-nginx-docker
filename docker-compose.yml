@@ -1,0 +1,73 @@
+version: "3.9"
+
+networks:
+  laravel:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8000:80"
+      - "8888:81"
+    volumes:
+      - ./workspace-folder-here:/var/www/
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - mysql
+      - php
+    mem_limit: 500m
+    networks:
+      - laravel
+
+  db:
+    image: mysql:8.0
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "4306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: $DATABASE
+      MYSQL_USER: $USER
+      MYSQL_PASSWORD: $PASSWORD
+      MYSQL_ROOT_PASSWORD: $ROOT_PASSWORD
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+
+    mem_limit: 1g
+    networks:
+      - laravel
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    expose:
+      - "9000:80"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./workspace-folder-here:/var/www/
+    environment:
+      SERVICE_NAME: php
+    mem_limit: 500m
+    networks:
+      - laravel
+
+  npm:
+    image: node:14
+    container_name: npm
+    volumes: 
+      - ./workspace-folder-here:/var/www
+    working_dir: /var/www
+    entrypoint: ['npm']
+    mem_limit: 500m
+    networks:
+      - laravel
