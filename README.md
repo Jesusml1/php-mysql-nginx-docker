@@ -1,6 +1,6 @@
 # Docker compose environment for PHP, mysql and nginx
 
-## Steps to use:
+## Usage:
 
 1. Clone your workspace project inside this directory.
 
