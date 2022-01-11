@@ -1,7 +1,7 @@
 FROM php:7.2-fpm
 
 ARG uid=1000
-ARG user={ add username here }
+ARG user=
 
 RUN apt update && apt install -y  git curl libpng-dev libonig-dev libxml2-dev zip unzip 
 
